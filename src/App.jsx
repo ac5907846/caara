@@ -88,7 +88,7 @@ export default function App() {
     const updated = { ...answers, [qId]: val };
     setAnswers(updated);
     if (currentQ < QUESTIONS.length - 1) {
-      setTimeout(() => setCurrentQ(c => c + 1), 220);
+      setCurrentQ(c => c + 1);
     }
   }
 
@@ -237,15 +237,19 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
             })}
           </div>
 
+          {/* Always visible View Results when all answered */}
+          {allAnswered && (
+            <div style={{ background:"#eef2ff", border:"2px solid #6366f1", borderRadius:10, padding:"14px 18px", marginBottom:16, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <span style={{ fontSize:13, color:"#4338ca", fontWeight:600 }}>All questions answered!</span>
+              <button onClick={handleSubmit} style={{ ...S.btn, padding:"10px 22px" }}>View Results</button>
+            </div>
+          )}
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
             <div style={{ display:"flex", gap:8 }}>
               {currentQ > 0 && <button onClick={() => setCurrentQ(c=>c-1)} style={S.btnOutline}>Back</button>}
               {currentQ < QUESTIONS.length - 1 && <button onClick={() => setCurrentQ(c=>c+1)} style={S.btnOutline}>Skip</button>}
             </div>
-            <div style={{ display:"flex", gap:8 }}>
-              <button onClick={reset} style={S.btnOutline}>Start Over</button>
-              {allAnswered && <button onClick={handleSubmit} style={S.btn}>View Results</button>}
-            </div>
+            <button onClick={reset} style={S.btnOutline}>Start Over</button>
           </div>
         </div>
       </div>
