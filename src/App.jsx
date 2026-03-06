@@ -147,6 +147,7 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
     btn: { padding:"13px 28px", background:"#6366f1", border:"none", borderRadius:8, color:"#fff", fontSize:15, fontWeight:600, cursor:"pointer" },
     btnOutline: { padding:"11px 22px", background:"#fff", border:"2px solid #e2e8f0", borderRadius:8, color:"#64748b", fontSize:13, fontWeight:600, cursor:"pointer" },
     select: { width:"100%", padding:"10px 12px", background:"#fff", border:"1px solid #e2e8f0", borderRadius:8, color:"#1e293b", fontSize:13 },
+    reviewBadge: { display:"inline-flex", alignItems:"center", gap:6, background:"#fefce8", border:"1px solid #fbbf24", borderRadius:6, padding:"4px 10px", fontSize:11, color:"#92400e", fontWeight:600 },
   };
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
@@ -190,8 +191,8 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
         </div>
 
         <button style={{ ...S.btn, width:"100%" }} onClick={() => setStep("survey")}>Begin Assessment</button>
-        <p style={{ textAlign:"center", fontSize:11, color:"#cbd5e1", marginTop:16 }}>
-          Chau et al. (2025) | Taylor &amp; Francis Int'l Journal of Construction Management
+        <p style={{ textAlign:"center", marginTop:16 }}>
+          <span style={S.reviewBadge}>Manuscript Under Peer Review - Not for Citation or Distribution</span>
         </p>
       </div>
     </div>
@@ -237,7 +238,6 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
             })}
           </div>
 
-          {/* Always visible View Results when all answered */}
           {allAnswered && (
             <div style={{ background:"#eef2ff", border:"2px solid #6366f1", borderRadius:10, padding:"14px 18px", marginBottom:16, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
               <span style={{ fontSize:13, color:"#4338ca", fontWeight:600 }}>All questions answered!</span>
@@ -262,7 +262,6 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
   const priority = getPriority(scores);
   const startPhase = THEMES.find(t => t.key === priority[0].key)?.phase || 1;
 
-  // Parse recommendation into sections for clean display
   function renderRecommendation(text) {
     if (!text) return null;
     const lines = text.split("\n").filter(l => l.trim());
@@ -360,15 +359,15 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
           }
         </div>
 
-        {/* Footer actions */}
+        {/* Footer */}
         <div style={{ display:"flex", justifyContent:"center", gap:12, marginTop:8 }}>
           <button onClick={reset} style={{ ...S.btn, display:"flex", alignItems:"center", gap:8 }}>
             <span style={{ fontSize:16 }}>↺</span> Start New Assessment
           </button>
         </div>
 
-        <p style={{ textAlign:"center", fontSize:11, color:"#cbd5e1", marginTop:20 }}>
-          Chau et al. (2025) · CAARA v1.0 · Int'l Journal of Construction Management
+        <p style={{ textAlign:"center", marginTop:20 }}>
+          <span style={S.reviewBadge}>Manuscript Under Peer Review - Not for Citation or Distribution</span>
         </p>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
