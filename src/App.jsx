@@ -81,9 +81,13 @@ function Header() {
   return (
     <>
       <style>{`
+        html, body {
+          margin: 0;
+          padding: 0;
+        }
         .electriai-nav {
           background: #0a1a3a;
-          padding: 14px 40px;
+          padding: 10px 32px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -97,17 +101,17 @@ function Header() {
           text-decoration: none;
         }
         .electriai-nav .logo img {
-          height: 42px;
+          height: 36px;
           display: block;
         }
         .electriai-nav .nav-links {
           display: flex;
-          gap: 32px;
+          gap: 30px;
           align-items: center;
         }
         .electriai-nav .nav-links a {
           color: #ffffff;
-          font-size: 15px;
+          font-size: 16px;
           text-decoration: none;
           font-weight: 400;
           transition: opacity 0.15s ease;
@@ -124,14 +128,14 @@ function Header() {
           background: none;
           border: none;
           color: #ffffff;
-          font-size: 26px;
+          font-size: 24px;
           cursor: pointer;
           padding: 4px 8px;
           line-height: 1;
         }
         .electriai-mobile-menu {
           background: #0a1a3a;
-          padding: 4px 24px 20px;
+          padding: 4px 20px 18px;
           display: flex;
           flex-direction: column;
           gap: 14px;
@@ -149,10 +153,10 @@ function Header() {
           font-weight: 700;
         }
         @media (max-width: 820px) {
-          .electriai-nav { padding: 12px 20px; }
+          .electriai-nav { padding: 8px 16px; }
           .electriai-nav .nav-links { display: none; }
           .electriai-nav .menu-toggle { display: block; }
-          .electriai-nav .logo img { height: 34px; }
+          .electriai-nav .logo img { height: 30px; }
         }
         @media (min-width: 821px) {
           .electriai-mobile-menu { display: none; }
@@ -190,26 +194,28 @@ function Header() {
   );
 }
 
-// ── PUBLICATION DETAILS CARD ──────────────────────────────────────────────────
-const APA_CITATION = "Chau, A. D., Wang, L., & Seni, M. (2026). AI integration in construction cost estimation: Workflow frictions and practitioner priorities from professional estimators. International Journal of Construction Management. https://doi.org/10.1080/15623599.2026.2669831";
+// ── ABOUT THIS RESEARCH (bottom of intro page) ────────────────────────────────
+const PAPER_TITLE = "AI Integration in Construction Cost Estimation: Workflow Frictions and Practitioner Priorities from Professional Estimators";
+const DOI_URL = "https://doi.org/10.1080/15623599.2026.2669831";
+const ABSTRACT_TEXT = "Cost estimation is a critical preconstruction function increasingly targeted for artificial intelligence (AI)-enabled improvement, yet empirical evidence on how professional estimators integrate these tools into daily practice remains limited. This exploratory qualitative study examines AI adoption in construction cost estimation through semi-structured interviews with 12 professional estimators from eight U.S.-based cost consultancies and general contractors, supplemented by a corroborating interview with a senior technology executive. Drawing on the Technology Acceptance Model (TAM) and Diffusion of Innovations (DOI) theory as complementary frameworks, the analysis operationalizes seven theoretical constructs at the coding level and identifies six practitioner-validated priority themes: reliability and uncertainty signaling, workflow integration, systems coverage for mechanical, electrical, and plumbing (MEP) assemblies, market-linked pricing, document and scope intelligence, and human-centered automation. The study introduces and formally defines the verification paradox, a previously unnamed mechanism in which estimators must re-perform manual takeoffs to validate AI outputs, neutralizing efficiency gains. The six themes are operationalized into the Construction AI Adoption Readiness Assessment (CAARA), an 18-item diagnostic instrument mapped to a three-phase implementation roadmap, presented as a conceptual framework pending psychometric validation. This study contributes practitioner-grounded empirical evidence and a structured diagnostic tool to support phased AI integration in professional estimation contexts.";
 
-function PublicationDetails() {
-  const [copied, setCopied] = useState(false);
-
-  const copyCitation = () => {
-    navigator.clipboard.writeText(APA_CITATION).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => {
-      setCopied(false);
-    });
+function AboutResearch() {
+  const sectionHeadingStyle = {
+    fontSize: 11,
+    fontWeight: 700,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    color: "#0f172a",
+    margin: "20px 0 8px",
+    display: "block"
   };
 
   return (
     <div style={{
       background: "#ffffff",
       borderRadius: 12,
-      padding: "22px 26px",
+      padding: "24px 28px",
+      marginTop: 24,
       marginBottom: 20,
       boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
       border: "1px solid #e2e8f0",
@@ -219,95 +225,62 @@ function PublicationDetails() {
         fontSize: 11, fontWeight: 700, letterSpacing: 2,
         textTransform: "uppercase", color: "#10b981",
         marginBottom: 10, display: "block"
-      }}>Publication Details</span>
+      }}>About This Research</span>
 
       <h3 style={{
         fontSize: 15, fontWeight: 700, color: "#0f172a",
-        margin: "0 0 6px", lineHeight: 1.4
+        margin: "0 0 6px", lineHeight: 1.45
       }}>
-        AI Integration in Construction Cost Estimation: Workflow Frictions and Practitioner Priorities from Professional Estimators
+        {PAPER_TITLE}
       </h3>
 
       <p style={{
-        fontSize: 12, color: "#64748b", margin: "0 0 14px",
-        fontStyle: "italic", lineHeight: 1.5
+        fontSize: 12, color: "#475569", margin: "0 0 4px", lineHeight: 1.5
       }}>
-        Chau, A. D., Wang, L., &amp; Seni, M. (2026) · <em>International Journal of Construction Management</em> · Published 13 May 2026
+        Anh D. Chau, Lufan Wang, and Michael Seni
       </p>
 
       <p style={{
-        fontSize: 13, color: "#475569", lineHeight: 1.7,
-        margin: "0 0 16px"
+        fontSize: 12, color: "#64748b", margin: 0,
+        fontStyle: "italic", lineHeight: 1.5
       }}>
-        This assessment is grounded in a peer-reviewed qualitative study of 12 U.S.-based professional estimators that identified six practitioner-validated priorities for AI integration in construction cost estimation. The study introduces the{" "}
-        <strong style={{ color: "#0f172a" }}>verification paradox</strong>, a mechanism in which manual re-checking of AI outputs neutralizes the efficiency gains that motivated AI adoption, and operationalizes the findings into this 18-item diagnostic instrument grounded in the Technology Acceptance Model (TAM) and Diffusion of Innovations (DOI) theory.
+        <em>International Journal of Construction Management</em> · Published 13 May 2026
       </p>
 
-      <div style={{
-        background: "#f8fafc",
-        border: "1px solid #e2e8f0",
-        borderRadius: 8,
-        padding: "12px 14px",
-        marginBottom: 12
+      <span style={sectionHeadingStyle}>Abstract</span>
+      <p style={{
+        fontSize: 13, color: "#334155", lineHeight: 1.75,
+        margin: 0, textAlign: "justify"
       }}>
-        <div style={{
-          fontSize: 10, fontWeight: 700, color: "#94a3b8",
-          textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8
-        }}>
-          APA 7 Citation
-        </div>
-        <p style={{
-          fontSize: 12, color: "#334155", lineHeight: 1.65,
-          margin: 0, fontFamily: "Georgia, 'Times New Roman', serif"
-        }}>
-          {APA_CITATION}
-        </p>
-      </div>
+        {ABSTRACT_TEXT}
+      </p>
 
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <button onClick={copyCitation} style={{
-          padding: "8px 16px",
-          background: copied ? "#10b981" : "#f1f5f9",
-          color: copied ? "#ffffff" : "#475569",
-          border: "1px solid " + (copied ? "#10b981" : "#e2e8f0"),
-          borderRadius: 6, fontSize: 12, fontWeight: 600,
-          cursor: "pointer", transition: "all 0.15s"
-        }}>
-          {copied ? "\u2713 Copied to clipboard" : "Copy Citation"}
-        </button>
-        <a href="https://doi.org/10.1080/15623599.2026.2669831"
-           target="_blank" rel="noopener noreferrer"
-           style={{
-             padding: "8px 16px",
-             background: "#6366f1", color: "#ffffff",
-             border: "1px solid #6366f1",
-             borderRadius: 6, fontSize: 12, fontWeight: 600,
-             textDecoration: "none", display: "inline-flex",
-             alignItems: "center", gap: 4
-           }}>
-          View Full Paper \u2192
+      <span style={sectionHeadingStyle}>Reference</span>
+      <p style={{
+        fontSize: 12.5, lineHeight: 1.7,
+        margin: "0 0 16px",
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        color: "#334155"
+      }}>
+        <a href={DOI_URL} target="_blank" rel="noopener noreferrer"
+           style={{ color: "#334155", textDecoration: "none" }}
+           onMouseEnter={e => e.currentTarget.style.color = "#6366f1"}
+           onMouseLeave={e => e.currentTarget.style.color = "#334155"}>
+          Chau, A. D., Wang, L., &amp; Seni, M. (2026). AI integration in construction cost estimation: Workflow frictions and practitioner priorities from professional estimators. <em>International Journal of Construction Management</em>. {DOI_URL}
         </a>
-      </div>
-    </div>
-  );
-}
+      </p>
 
-// ── PUBLISHED BADGE ────────────────────────────────────────────────────────────
-function PublishedBadge() {
-  return (
-    <p style={{ textAlign: "center", marginTop: 16 }}>
-      <a href="https://doi.org/10.1080/15623599.2026.2669831"
-         target="_blank" rel="noopener noreferrer"
-         style={{
-           display: "inline-flex", alignItems: "center", gap: 6,
-           background: "#ecfdf5", border: "1px solid #10b981",
-           borderRadius: 6, padding: "6px 12px",
-           fontSize: 11, color: "#065f46", fontWeight: 600,
-           textDecoration: "none", lineHeight: 1.5
-         }}>
-        ✓ Published in International Journal of Construction Management (May 2026) · DOI: 10.1080/15623599.2026.2669831
+      <a href={DOI_URL} target="_blank" rel="noopener noreferrer" style={{
+        display: "inline-flex", alignItems: "center", gap: 6,
+        padding: "9px 18px",
+        background: "#6366f1", color: "#ffffff",
+        border: "1px solid #6366f1",
+        borderRadius: 6, fontSize: 13, fontWeight: 600,
+        textDecoration: "none"
+      }}>
+        View Full Paper →
       </a>
-    </p>
+    </div>
   );
 }
 
@@ -412,8 +385,6 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
             <p style={{ color:"#94a3b8", fontSize:12, margin:0 }}>Takes approximately 4 minutes. Responses are anonymous.</p>
           </div>
 
-          <PublicationDetails />
-
           <div style={{ ...S.card }}>
             <span style={S.label}>About Your Organization (Optional)</span>
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
@@ -441,7 +412,8 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
           </div>
 
           <button style={{ ...S.btn, width:"100%" }} onClick={() => setStep("survey")}>Begin Assessment</button>
-          <PublishedBadge />
+
+          <AboutResearch />
         </div>
       </div>
     </div>
@@ -619,8 +591,6 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
               <span style={{ fontSize:16 }}>↺</span> Start New Assessment
             </button>
           </div>
-
-          <PublishedBadge />
         </div>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
