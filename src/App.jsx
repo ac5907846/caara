@@ -65,6 +65,252 @@ function getScoreLabel(score) {
   return { label: "Needs Work", color: "#dc2626" };
 }
 
+// ── HEADER COMPONENT (ElectriAI branding, matches electriai.com) ──────────────
+const NAV_LINKS = [
+  { label: "Home",          url: "https://www.electriai.com/home" },
+  { label: "Apps",          url: "https://www.electriai.com/apps", active: true },
+  { label: "Teaching",      url: "https://www.electriai.com/teaching" },
+  { label: "Bio",           url: "https://www.electriai.com/bio" },
+  { label: "Publications",  url: "https://www.electriai.com/publications" },
+  { label: "ElectriAI Lab", url: "https://www.electriai.com/electriai-lab" },
+];
+
+function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <>
+      <style>{`
+        .electriai-nav {
+          background: #0a1a3a;
+          padding: 14px 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-family: sans-serif;
+          position: relative;
+          z-index: 10;
+        }
+        .electriai-nav .logo {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+        }
+        .electriai-nav .logo img {
+          height: 42px;
+          display: block;
+        }
+        .electriai-nav .nav-links {
+          display: flex;
+          gap: 32px;
+          align-items: center;
+        }
+        .electriai-nav .nav-links a {
+          color: #ffffff;
+          font-size: 15px;
+          text-decoration: none;
+          font-weight: 400;
+          transition: opacity 0.15s ease;
+          letter-spacing: 0.2px;
+        }
+        .electriai-nav .nav-links a:hover {
+          opacity: 0.75;
+        }
+        .electriai-nav .nav-links a.active {
+          font-weight: 700;
+        }
+        .electriai-nav .menu-toggle {
+          display: none;
+          background: none;
+          border: none;
+          color: #ffffff;
+          font-size: 26px;
+          cursor: pointer;
+          padding: 4px 8px;
+          line-height: 1;
+        }
+        .electriai-mobile-menu {
+          background: #0a1a3a;
+          padding: 4px 24px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          font-family: sans-serif;
+        }
+        .electriai-mobile-menu a {
+          color: #ffffff;
+          font-size: 16px;
+          text-decoration: none;
+          font-weight: 400;
+          padding: 8px 0;
+        }
+        .electriai-mobile-menu a.active {
+          font-weight: 700;
+        }
+        @media (max-width: 820px) {
+          .electriai-nav { padding: 12px 20px; }
+          .electriai-nav .nav-links { display: none; }
+          .electriai-nav .menu-toggle { display: block; }
+          .electriai-nav .logo img { height: 34px; }
+        }
+        @media (min-width: 821px) {
+          .electriai-mobile-menu { display: none; }
+        }
+      `}</style>
+
+      <nav className="electriai-nav">
+        <a href="https://www.electriai.com" className="logo">
+          <img src="/logo.png" alt="ElectriAI" />
+        </a>
+
+        <div className="nav-links">
+          {NAV_LINKS.map(link => (
+            <a key={link.label} href={link.url} className={link.active ? "active" : ""}>
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          {menuOpen ? "\u2715" : "\u2630"}
+        </button>
+      </nav>
+
+      {menuOpen && (
+        <div className="electriai-mobile-menu">
+          {NAV_LINKS.map(link => (
+            <a key={link.label} href={link.url} className={link.active ? "active" : ""}>
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+// ── PUBLICATION DETAILS CARD ──────────────────────────────────────────────────
+const APA_CITATION = "Chau, A. D., Wang, L., & Seni, M. (2026). AI integration in construction cost estimation: Workflow frictions and practitioner priorities from professional estimators. International Journal of Construction Management. https://doi.org/10.1080/15623599.2026.2669831";
+
+function PublicationDetails() {
+  const [copied, setCopied] = useState(false);
+
+  const copyCitation = () => {
+    navigator.clipboard.writeText(APA_CITATION).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      setCopied(false);
+    });
+  };
+
+  return (
+    <div style={{
+      background: "#ffffff",
+      borderRadius: 12,
+      padding: "22px 26px",
+      marginBottom: 20,
+      boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+      border: "1px solid #e2e8f0",
+      borderLeft: "4px solid #10b981"
+    }}>
+      <span style={{
+        fontSize: 11, fontWeight: 700, letterSpacing: 2,
+        textTransform: "uppercase", color: "#10b981",
+        marginBottom: 10, display: "block"
+      }}>Publication Details</span>
+
+      <h3 style={{
+        fontSize: 15, fontWeight: 700, color: "#0f172a",
+        margin: "0 0 6px", lineHeight: 1.4
+      }}>
+        AI Integration in Construction Cost Estimation: Workflow Frictions and Practitioner Priorities from Professional Estimators
+      </h3>
+
+      <p style={{
+        fontSize: 12, color: "#64748b", margin: "0 0 14px",
+        fontStyle: "italic", lineHeight: 1.5
+      }}>
+        Chau, A. D., Wang, L., &amp; Seni, M. (2026) · <em>International Journal of Construction Management</em> · Published 13 May 2026
+      </p>
+
+      <p style={{
+        fontSize: 13, color: "#475569", lineHeight: 1.7,
+        margin: "0 0 16px"
+      }}>
+        This assessment is grounded in a peer-reviewed qualitative study of 12 U.S.-based professional estimators that identified six practitioner-validated priorities for AI integration in construction cost estimation. The study introduces the{" "}
+        <strong style={{ color: "#0f172a" }}>verification paradox</strong>, a mechanism in which manual re-checking of AI outputs neutralizes the efficiency gains that motivated AI adoption, and operationalizes the findings into this 18-item diagnostic instrument grounded in the Technology Acceptance Model (TAM) and Diffusion of Innovations (DOI) theory.
+      </p>
+
+      <div style={{
+        background: "#f8fafc",
+        border: "1px solid #e2e8f0",
+        borderRadius: 8,
+        padding: "12px 14px",
+        marginBottom: 12
+      }}>
+        <div style={{
+          fontSize: 10, fontWeight: 700, color: "#94a3b8",
+          textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8
+        }}>
+          APA 7 Citation
+        </div>
+        <p style={{
+          fontSize: 12, color: "#334155", lineHeight: 1.65,
+          margin: 0, fontFamily: "Georgia, 'Times New Roman', serif"
+        }}>
+          {APA_CITATION}
+        </p>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <button onClick={copyCitation} style={{
+          padding: "8px 16px",
+          background: copied ? "#10b981" : "#f1f5f9",
+          color: copied ? "#ffffff" : "#475569",
+          border: "1px solid " + (copied ? "#10b981" : "#e2e8f0"),
+          borderRadius: 6, fontSize: 12, fontWeight: 600,
+          cursor: "pointer", transition: "all 0.15s"
+        }}>
+          {copied ? "\u2713 Copied to clipboard" : "Copy Citation"}
+        </button>
+        <a href="https://doi.org/10.1080/15623599.2026.2669831"
+           target="_blank" rel="noopener noreferrer"
+           style={{
+             padding: "8px 16px",
+             background: "#6366f1", color: "#ffffff",
+             border: "1px solid #6366f1",
+             borderRadius: 6, fontSize: 12, fontWeight: 600,
+             textDecoration: "none", display: "inline-flex",
+             alignItems: "center", gap: 4
+           }}>
+          View Full Paper \u2192
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// ── PUBLISHED BADGE ────────────────────────────────────────────────────────────
+function PublishedBadge() {
+  return (
+    <p style={{ textAlign: "center", marginTop: 16 }}>
+      <a href="https://doi.org/10.1080/15623599.2026.2669831"
+         target="_blank" rel="noopener noreferrer"
+         style={{
+           display: "inline-flex", alignItems: "center", gap: 6,
+           background: "#ecfdf5", border: "1px solid #10b981",
+           borderRadius: 6, padding: "6px 12px",
+           fontSize: 11, color: "#065f46", fontWeight: 600,
+           textDecoration: "none", lineHeight: 1.5
+         }}>
+        ✓ Published in International Journal of Construction Management (May 2026) · DOI: 10.1080/15623599.2026.2669831
+      </a>
+    </p>
+  );
+}
+
 export default function App() {
   const [step, setStep] = useState("intro");
   const [answers, setAnswers] = useState({});
@@ -139,7 +385,8 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
   }
 
   const S = {
-    page: { minHeight:"100vh", background:"#f8fafc", color:"#1e293b", fontFamily:"'Segoe UI',system-ui,sans-serif", padding:"32px 24px" },
+    page: { minHeight:"100vh", background:"#f8fafc", color:"#1e293b", fontFamily:"sans-serif" },
+    contentWrap: { padding:"32px 24px" },
     card: { background:"#ffffff", borderRadius:12, padding:"24px 28px", marginBottom:20, boxShadow:"0 1px 4px rgba(0,0,0,0.08)", border:"1px solid #e2e8f0" },
     label: { fontSize:11, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:"#94a3b8", marginBottom:8, display:"block" },
     h1: { margin:"0 0 6px", fontSize:26, fontWeight:800, color:"#0f172a", lineHeight:1.2 },
@@ -147,53 +394,55 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
     btn: { padding:"13px 28px", background:"#6366f1", border:"none", borderRadius:8, color:"#fff", fontSize:15, fontWeight:600, cursor:"pointer" },
     btnOutline: { padding:"11px 22px", background:"#fff", border:"2px solid #e2e8f0", borderRadius:8, color:"#64748b", fontSize:13, fontWeight:600, cursor:"pointer" },
     select: { width:"100%", padding:"10px 12px", background:"#fff", border:"1px solid #e2e8f0", borderRadius:8, color:"#1e293b", fontSize:13 },
-    reviewBadge: { display:"inline-flex", alignItems:"center", gap:6, background:"#fefce8", border:"1px solid #fbbf24", borderRadius:6, padding:"4px 10px", fontSize:11, color:"#92400e", fontWeight:600 },
   };
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
   if (step === "intro") return (
     <div style={S.page}>
-      <div style={{ maxWidth:520, margin:"0 auto" }}>
-        <div style={{ ...S.card, borderTop:`4px solid #6366f1` }}>
-          <span style={S.label}>Research Instrument</span>
-          <h1 style={S.h1}>Construction AI Adoption<br/>Readiness Assessment</h1>
-          <div style={{ ...S.subtitle, marginBottom:20 }}>CAARA v1.0</div>
-          <p style={{ color:"#475569", lineHeight:1.75, margin:"0 0 16px", fontSize:14 }}>
-            This 18-question instrument measures organizational readiness across six dimensions of AI integration in construction cost estimation, grounded in the Technology Acceptance Model and Diffusion of Innovations theory.
-          </p>
-          <p style={{ color:"#94a3b8", fontSize:12, margin:0 }}>Takes approximately 4 minutes. Responses are anonymous.</p>
-        </div>
+      <Header />
+      <div style={S.contentWrap}>
+        <div style={{ maxWidth:560, margin:"0 auto" }}>
+          <div style={{ ...S.card, borderTop:`4px solid #6366f1` }}>
+            <span style={S.label}>Research Instrument</span>
+            <h1 style={S.h1}>Construction AI Adoption<br/>Readiness Assessment</h1>
+            <div style={{ ...S.subtitle, marginBottom:20 }}>CAARA v1.0</div>
+            <p style={{ color:"#475569", lineHeight:1.75, margin:"0 0 16px", fontSize:14 }}>
+              This 18-question instrument measures organizational readiness across six dimensions of AI integration in construction cost estimation, grounded in the Technology Acceptance Model and Diffusion of Innovations theory.
+            </p>
+            <p style={{ color:"#94a3b8", fontSize:12, margin:0 }}>Takes approximately 4 minutes. Responses are anonymous.</p>
+          </div>
 
-        <div style={{ ...S.card }}>
-          <span style={S.label}>About Your Organization (Optional)</span>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
-            <div>
-              <div style={{ fontSize:12, color:"#64748b", marginBottom:6 }}>Organization Type</div>
-              <select style={S.select} onChange={e => setOrg(p => ({ ...p, type: e.target.value }))}>
-                <option value="">Select...</option>
-                <option>Cost Consultant</option>
-                <option>General Contractor (Commercial)</option>
-                <option>General Contractor (Heavy)</option>
-                <option>Specialty Contractor</option>
-                <option>Owner/Developer</option>
-              </select>
-            </div>
-            <div>
-              <div style={{ fontSize:12, color:"#64748b", marginBottom:6 }}>Organization Size</div>
-              <select style={S.select} onChange={e => setOrg(p => ({ ...p, size: e.target.value }))}>
-                <option value="">Select...</option>
-                <option>Small (&lt;25 employees)</option>
-                <option>Mid-size (25-200)</option>
-                <option>Large (&gt;200)</option>
-              </select>
+          <PublicationDetails />
+
+          <div style={{ ...S.card }}>
+            <span style={S.label}>About Your Organization (Optional)</span>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
+              <div>
+                <div style={{ fontSize:12, color:"#64748b", marginBottom:6 }}>Organization Type</div>
+                <select style={S.select} onChange={e => setOrg(p => ({ ...p, type: e.target.value }))}>
+                  <option value="">Select...</option>
+                  <option>Cost Consultant</option>
+                  <option>General Contractor (Commercial)</option>
+                  <option>General Contractor (Heavy)</option>
+                  <option>Specialty Contractor</option>
+                  <option>Owner/Developer</option>
+                </select>
+              </div>
+              <div>
+                <div style={{ fontSize:12, color:"#64748b", marginBottom:6 }}>Organization Size</div>
+                <select style={S.select} onChange={e => setOrg(p => ({ ...p, size: e.target.value }))}>
+                  <option value="">Select...</option>
+                  <option>Small (&lt;25 employees)</option>
+                  <option>Mid-size (25-200)</option>
+                  <option>Large (&gt;200)</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        <button style={{ ...S.btn, width:"100%" }} onClick={() => setStep("survey")}>Begin Assessment</button>
-        <p style={{ textAlign:"center", marginTop:16 }}>
-          <span style={S.reviewBadge}>Manuscript Under Peer Review - Not for Citation or Distribution</span>
-        </p>
+          <button style={{ ...S.btn, width:"100%" }} onClick={() => setStep("survey")}>Begin Assessment</button>
+          <PublishedBadge />
+        </div>
       </div>
     </div>
   );
@@ -205,51 +454,54 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
     const allAnswered = Object.keys(answers).length === QUESTIONS.length;
 
     return (
-      <div style={{ ...S.page, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-        <div style={{ maxWidth:560, width:"100%" }}>
-          <div style={{ marginBottom:28 }}>
-            <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color:"#94a3b8", marginBottom:8 }}>
-              <span>Question {currentQ + 1} of {QUESTIONS.length}</span>
-              <span>{progress}% complete</span>
+      <div style={S.page}>
+        <Header />
+        <div style={{ ...S.contentWrap, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:"calc(100vh - 80px)" }}>
+          <div style={{ maxWidth:560, width:"100%" }}>
+            <div style={{ marginBottom:28 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color:"#94a3b8", marginBottom:8 }}>
+                <span>Question {currentQ + 1} of {QUESTIONS.length}</span>
+                <span>{progress}% complete</span>
+              </div>
+              <div style={{ height:5, background:"#e2e8f0", borderRadius:4 }}>
+                <div style={{ height:"100%", width:`${progress}%`, background:`linear-gradient(90deg,#6366f1,#0284c7)`, borderRadius:4, transition:"width 0.3s" }} />
+              </div>
             </div>
-            <div style={{ height:5, background:"#e2e8f0", borderRadius:4 }}>
-              <div style={{ height:"100%", width:`${progress}%`, background:`linear-gradient(90deg,#6366f1,#0284c7)`, borderRadius:4, transition:"width 0.3s" }} />
+
+            <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"4px 12px", borderRadius:20, background:`${theme.color}15`, border:`1px solid ${theme.color}40`, marginBottom:16 }}>
+              <div style={{ width:8, height:8, borderRadius:"50%", background:theme.color }} />
+              <span style={{ fontSize:11, fontWeight:700, color:theme.color, letterSpacing:1, textTransform:"uppercase" }}>{theme.label}</span>
             </div>
-          </div>
 
-          <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"4px 12px", borderRadius:20, background:`${theme.color}15`, border:`1px solid ${theme.color}40`, marginBottom:16 }}>
-            <div style={{ width:8, height:8, borderRadius:"50%", background:theme.color }} />
-            <span style={{ fontSize:11, fontWeight:700, color:theme.color, letterSpacing:1, textTransform:"uppercase" }}>{theme.label}</span>
-          </div>
-
-          <div style={{ ...S.card, borderLeft:`4px solid ${theme.color}` }}>
-            <p style={{ fontSize:17, lineHeight:1.7, margin:0, color:"#1e293b" }}>{q.text}</p>
-          </div>
-
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:8, marginBottom:28 }}>
-            {LABELS.map((lbl, i) => {
-              const selected = answers[q.id] === i;
-              return (
-                <button key={i} onClick={() => handleAnswer(q.id, i)}
-                  style={{ padding:"12px 4px", background: selected ? theme.color : "#fff", border:`2px solid ${selected ? theme.color : "#e2e8f0"}`, borderRadius:8, color: selected ? "#fff" : "#64748b", fontSize:10, cursor:"pointer", textAlign:"center", lineHeight:1.4, fontWeight: selected ? 700 : 400, transition:"all 0.15s" }}>
-                  {lbl}
-                </button>
-              );
-            })}
-          </div>
-
-          {allAnswered && (
-            <div style={{ background:"#eef2ff", border:"2px solid #6366f1", borderRadius:10, padding:"14px 18px", marginBottom:16, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-              <span style={{ fontSize:13, color:"#4338ca", fontWeight:600 }}>All questions answered!</span>
-              <button onClick={handleSubmit} style={{ ...S.btn, padding:"10px 22px" }}>View Results</button>
+            <div style={{ ...S.card, borderLeft:`4px solid ${theme.color}` }}>
+              <p style={{ fontSize:17, lineHeight:1.7, margin:0, color:"#1e293b" }}>{q.text}</p>
             </div>
-          )}
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <div style={{ display:"flex", gap:8 }}>
-              {currentQ > 0 && <button onClick={() => setCurrentQ(c=>c-1)} style={S.btnOutline}>Back</button>}
-              {currentQ < QUESTIONS.length - 1 && <button onClick={() => setCurrentQ(c=>c+1)} style={S.btnOutline}>Skip</button>}
+
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:8, marginBottom:28 }}>
+              {LABELS.map((lbl, i) => {
+                const selected = answers[q.id] === i;
+                return (
+                  <button key={i} onClick={() => handleAnswer(q.id, i)}
+                    style={{ padding:"12px 4px", background: selected ? theme.color : "#fff", border:`2px solid ${selected ? theme.color : "#e2e8f0"}`, borderRadius:8, color: selected ? "#fff" : "#64748b", fontSize:10, cursor:"pointer", textAlign:"center", lineHeight:1.4, fontWeight: selected ? 700 : 400, transition:"all 0.15s" }}>
+                    {lbl}
+                  </button>
+                );
+              })}
             </div>
-            <button onClick={reset} style={S.btnOutline}>Start Over</button>
+
+            {allAnswered && (
+              <div style={{ background:"#eef2ff", border:"2px solid #6366f1", borderRadius:10, padding:"14px 18px", marginBottom:16, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                <span style={{ fontSize:13, color:"#4338ca", fontWeight:600 }}>All questions answered!</span>
+                <button onClick={handleSubmit} style={{ ...S.btn, padding:"10px 22px" }}>View Results</button>
+              </div>
+            )}
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <div style={{ display:"flex", gap:8 }}>
+                {currentQ > 0 && <button onClick={() => setCurrentQ(c=>c-1)} style={S.btnOutline}>Back</button>}
+                {currentQ < QUESTIONS.length - 1 && <button onClick={() => setCurrentQ(c=>c+1)} style={S.btnOutline}>Skip</button>}
+              </div>
+              <button onClick={reset} style={S.btnOutline}>Start Over</button>
+            </div>
           </div>
         </div>
       </div>
@@ -279,96 +531,97 @@ Keep every bullet under 20 words. Be direct. No fluff.`;
 
   return (
     <div style={S.page}>
-      <div style={{ maxWidth:700, margin:"0 auto" }}>
+      <Header />
+      <div style={S.contentWrap}>
+        <div style={{ maxWidth:700, margin:"0 auto" }}>
 
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:28 }}>
-          <div>
-            <span style={S.label}>Assessment Complete</span>
-            <h2 style={{ ...S.h1, fontSize:22 }}>Your AI Readiness Profile</h2>
-            {org.type && <div style={{ fontSize:12, color:"#94a3b8", marginTop:4 }}>{org.type} {org.size ? `· ${org.size}` : ""}</div>}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:28 }}>
+            <div>
+              <span style={S.label}>Assessment Complete</span>
+              <h2 style={{ ...S.h1, fontSize:22 }}>Your AI Readiness Profile</h2>
+              {org.type && <div style={{ fontSize:12, color:"#94a3b8", marginTop:4 }}>{org.type} {org.size ? `· ${org.size}` : ""}</div>}
+            </div>
+            <button onClick={reset} style={{ ...S.btnOutline, display:"flex", alignItems:"center", gap:6 }}>
+              <span style={{ fontSize:16 }}>↺</span> New Assessment
+            </button>
           </div>
-          <button onClick={reset} style={{ ...S.btnOutline, display:"flex", alignItems:"center", gap:6 }}>
-            <span style={{ fontSize:16 }}>↺</span> New Assessment
-          </button>
-        </div>
 
-        {/* Radar */}
-        <div style={S.card}>
-          <span style={S.label}>Readiness Radar</span>
-          <ResponsiveContainer width="100%" height={280}>
-            <RadarChart data={radarData} margin={{ top:10, right:40, bottom:10, left:40 }}>
-              <PolarGrid stroke="#e2e8f0" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill:"#64748b", fontSize:10 }} />
-              <PolarRadiusAxis angle={30} domain={[0,100]} tick={{ fill:"#94a3b8", fontSize:9 }} tickCount={4} />
-              <Radar name="Readiness" dataKey="score" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} strokeWidth={2} dot={{ fill:"#6366f1", r:3 }} />
-              <Tooltip formatter={v => [`${v}%`,"Score"]} contentStyle={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:8, fontSize:12 }} />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div>
+          {/* Radar */}
+          <div style={S.card}>
+            <span style={S.label}>Readiness Radar</span>
+            <ResponsiveContainer width="100%" height={280}>
+              <RadarChart data={radarData} margin={{ top:10, right:40, bottom:10, left:40 }}>
+                <PolarGrid stroke="#e2e8f0" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill:"#64748b", fontSize:10 }} />
+                <PolarRadiusAxis angle={30} domain={[0,100]} tick={{ fill:"#94a3b8", fontSize:9 }} tickCount={4} />
+                <Radar name="Readiness" dataKey="score" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} strokeWidth={2} dot={{ fill:"#6366f1", r:3 }} />
+                <Tooltip formatter={v => [`${v}%`,"Score"]} contentStyle={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:8, fontSize:12 }} />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
 
-        {/* Score grid */}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:20 }}>
-          {THEMES.map(t => {
-            const sl = getScoreLabel(scores[t.key]);
-            return (
-              <div key={t.key} style={{ ...S.card, marginBottom:0, borderLeft:`4px solid ${t.color}` }}>
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
-                  <span style={{ fontSize:12, color:"#475569", lineHeight:1.4, flex:1 }}>{t.label}</span>
-                  <span style={{ fontSize:20, fontWeight:800, color:t.color, marginLeft:8 }}>{scores[t.key]}%</span>
-                </div>
-                <div style={{ height:4, background:"#f1f5f9", borderRadius:4, marginBottom:8 }}>
-                  <div style={{ height:"100%", width:`${scores[t.key]}%`, background:t.color, borderRadius:4 }} />
-                </div>
-                <div style={{ display:"flex", justifyContent:"space-between" }}>
-                  <span style={{ fontSize:10, color:"#94a3b8" }}>Phase {t.phase}</span>
-                  <span style={{ fontSize:10, fontWeight:700, color:sl.color }}>{sl.label}</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Phase roadmap */}
-        <div style={S.card}>
-          <span style={S.label}>Recommended Implementation Phase</span>
-          <div style={{ display:"flex", gap:10 }}>
-            {[1,2,3].map(p => {
-              const active = p === startPhase;
+          {/* Score grid */}
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:20 }}>
+            {THEMES.map(t => {
+              const sl = getScoreLabel(scores[t.key]);
               return (
-                <div key={p} style={{ flex:1, padding:"14px", borderRadius:8, background: active ? "#eef2ff" : "#f8fafc", border:`2px solid ${active ? "#6366f1" : "#e2e8f0"}` }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
-                    <div style={{ width:24, height:24, borderRadius:"50%", background: active ? "#6366f1" : "#e2e8f0", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color: active ? "#fff" : "#94a3b8" }}>{p}</div>
-                    {active && <span style={{ fontSize:10, fontWeight:700, color:"#6366f1", textTransform:"uppercase", letterSpacing:1 }}>Start Here</span>}
+                <div key={t.key} style={{ ...S.card, marginBottom:0, borderLeft:`4px solid ${t.color}` }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
+                    <span style={{ fontSize:12, color:"#475569", lineHeight:1.4, flex:1 }}>{t.label}</span>
+                    <span style={{ fontSize:20, fontWeight:800, color:t.color, marginLeft:8 }}>{scores[t.key]}%</span>
                   </div>
-                  <div style={{ fontSize:11, color: active ? "#334155" : "#94a3b8", lineHeight:1.5 }}>{PHASE_DESC[p]}</div>
+                  <div style={{ height:4, background:"#f1f5f9", borderRadius:4, marginBottom:8 }}>
+                    <div style={{ height:"100%", width:`${scores[t.key]}%`, background:t.color, borderRadius:4 }} />
+                  </div>
+                  <div style={{ display:"flex", justifyContent:"space-between" }}>
+                    <span style={{ fontSize:10, color:"#94a3b8" }}>Phase {t.phase}</span>
+                    <span style={{ fontSize:10, fontWeight:700, color:sl.color }}>{sl.label}</span>
+                  </div>
                 </div>
               );
             })}
           </div>
-        </div>
 
-        {/* AI Recommendation */}
-        <div style={{ ...S.card, borderTop:`3px solid #6366f1` }}>
-          <span style={S.label}>AI-Generated Implementation Recommendation</span>
-          {loading
-            ? <div style={{ display:"flex", gap:10, alignItems:"center", color:"#94a3b8", fontSize:13, padding:"12px 0" }}>
-                <div style={{ width:16, height:16, border:"2px solid #6366f1", borderTopColor:"transparent", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
-                Generating your personalized recommendation...
-              </div>
-            : <div>{renderRecommendation(recommendation)}</div>
-          }
-        </div>
+          {/* Phase roadmap */}
+          <div style={S.card}>
+            <span style={S.label}>Recommended Implementation Phase</span>
+            <div style={{ display:"flex", gap:10 }}>
+              {[1,2,3].map(p => {
+                const active = p === startPhase;
+                return (
+                  <div key={p} style={{ flex:1, padding:"14px", borderRadius:8, background: active ? "#eef2ff" : "#f8fafc", border:`2px solid ${active ? "#6366f1" : "#e2e8f0"}` }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+                      <div style={{ width:24, height:24, borderRadius:"50%", background: active ? "#6366f1" : "#e2e8f0", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color: active ? "#fff" : "#94a3b8" }}>{p}</div>
+                      {active && <span style={{ fontSize:10, fontWeight:700, color:"#6366f1", textTransform:"uppercase", letterSpacing:1 }}>Start Here</span>}
+                    </div>
+                    <div style={{ fontSize:11, color: active ? "#334155" : "#94a3b8", lineHeight:1.5 }}>{PHASE_DESC[p]}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-        {/* Footer */}
-        <div style={{ display:"flex", justifyContent:"center", gap:12, marginTop:8 }}>
-          <button onClick={reset} style={{ ...S.btn, display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ fontSize:16 }}>↺</span> Start New Assessment
-          </button>
-        </div>
+          {/* AI Recommendation */}
+          <div style={{ ...S.card, borderTop:`3px solid #6366f1` }}>
+            <span style={S.label}>AI-Generated Implementation Recommendation</span>
+            {loading
+              ? <div style={{ display:"flex", gap:10, alignItems:"center", color:"#94a3b8", fontSize:13, padding:"12px 0" }}>
+                  <div style={{ width:16, height:16, border:"2px solid #6366f1", borderTopColor:"transparent", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
+                  Generating your personalized recommendation...
+                </div>
+              : <div>{renderRecommendation(recommendation)}</div>
+            }
+          </div>
 
-        <p style={{ textAlign:"center", marginTop:20 }}>
-          <span style={S.reviewBadge}>Manuscript Under Peer Review - Not for Citation or Distribution</span>
-        </p>
+          {/* Footer */}
+          <div style={{ display:"flex", justifyContent:"center", gap:12, marginTop:8 }}>
+            <button onClick={reset} style={{ ...S.btn, display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ fontSize:16 }}>↺</span> Start New Assessment
+            </button>
+          </div>
+
+          <PublishedBadge />
+        </div>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
